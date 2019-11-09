@@ -1,0 +1,105 @@
+#define velmotor 3  
+#define en2 4
+#define en1 5
+int led_power = 6;
+int botao_power = 8;
+int motordesligado = 0; 
+int cont_botaop = 0;
+int estado_power;
+int refilar = 0;
+int potenciapegafolha = 100; //forca do motor 180 
+int potenciajogarfolha = 180; //forca do motor 180
+int timepegar = 1800; //tempo em ms para pegar folha 300  bom em 350 Funcionando estava 180
+int pausa = 1000; // tempo de pausar de uma folha para outra
+int timejogar = 2500; //tempo para 2500
+int contar_impressao;
+int refilado = 0;
+int buzzer = 7;
+int estadoanteriorbotao;
+
+
+void setup() 
+{
+  pinMode (led_power, OUTPUT);
+  pinMode (botao_power, OUTPUT);
+  pinMode (velmotor,OUTPUT);
+  pinMode (buzzer, OUTPUT);
+  digitalWrite (en1,LOW);
+  digitalWrite (en2,LOW);
+  analogWrite (velmotor,motordesligado);
+  estadoanteriorbotao = digitalRead(botao_power);
+}
+
+
+void loop()
+{
+
+ 
+  //power
+  estado_power = digitalRead(botao_power);
+  
+  if ((estado_power == HIGH) && (estadoanteriorbotao == LOW)) {
+  cont_botaop++; }
+  
+  if ((cont_botaop == 0) || (cont_botaop == 2)) {
+  cont_botaop = 0;
+  digitalWrite(led_power, LOW);    
+  digitalWrite (en1,LOW);
+  digitalWrite (en2,LOW);
+  refilar = 0;        
+   
+  }
+  estadoanteriorbotao = estado_power; 
+  
+  if ((cont_botaop == 1) && (refilar <= 50)) {
+  digitalWrite(led_power, HIGH);     
+  analogWrite (velmotor,potenciapegafolha);
+  digitalWrite (en1,LOW); //aqui liga puxa a folha em high
+  digitalWrite (en2,HIGH); //aqui coloca para refilar high
+  delay (timepegar);
+  digitalWrite (en1,LOW);
+  digitalWrite (en2,LOW);
+  delay (pausa);
+  analogWrite (velmotor,potenciajogarfolha);
+  digitalWrite (en1,HIGH); //aqui liga puxa a folha em high
+  digitalWrite (en2,LOW); //aqui coloca para refilar high
+  delay (timejogar);
+  refilar++;
+  }
+
+  // if (((cont_botaop == 1) && (refilar >= 50) && (refilar <=80)))  {
+  
+  if (((cont_botaop == 1) && (refilar >= 50) && (refilar <=80)))  {
+  digitalWrite (en1,LOW);
+  digitalWrite (en2,LOW);
+  digitalWrite(led_power, HIGH);     
+  analogWrite (velmotor,150);
+  digitalWrite (en1,LOW); //aqui liga puxa a folha em high
+  digitalWrite (en2,HIGH); //aqui coloca para refilar high
+  delay (timepegar);
+  digitalWrite (en1,LOW);
+  digitalWrite (en2,LOW);
+  delay (pausa);
+  analogWrite (velmotor,potenciajogarfolha);
+  digitalWrite (en1,HIGH); //aqui liga puxa a folha em high
+  digitalWrite (en2,LOW); //aqui coloca para refilar high
+  delay (timejogar);
+  refilar++;
+  digitalWrite (buzzer, HIGH);
+  delay (100);
+  digitalWrite (buzzer, LOW);
+  delay (100);
+ // digitalWrite (buzzer, HIGH);
+ // delay (100);
+ // digitalWrite (buzzer, LOW);
+ // delay (100);
+       
+
+  }
+  
+ if (refilar == 80) {
+ cont_botaop = 0;
+ }
+  delay (200);
+ 
+  }
