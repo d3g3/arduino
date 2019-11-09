@@ -30,11 +30,9 @@ void setup()
   estadoanteriorbotao = digitalRead(botao_power);
 }
 
-
 void loop()
 {
 
- 
   //power
   estado_power = digitalRead(botao_power);
   
@@ -66,8 +64,6 @@ void loop()
   delay (timejogar);
   refilar++;
   }
-
-  // if (((cont_botaop == 1) && (refilar >= 50) && (refilar <=80)))  {
   
   if (((cont_botaop == 1) && (refilar >= 50) && (refilar <=80)))  {
   digitalWrite (en1,LOW);
@@ -88,12 +84,7 @@ void loop()
   digitalWrite (buzzer, HIGH);
   delay (100);
   digitalWrite (buzzer, LOW);
-  delay (100);
- // digitalWrite (buzzer, HIGH);
- // delay (100);
- // digitalWrite (buzzer, LOW);
- // delay (100);
-       
+  delay (100);     
 
   }
   
@@ -101,5 +92,4 @@ void loop()
  cont_botaop = 0;
  }
   delay (200);
- 
   }
